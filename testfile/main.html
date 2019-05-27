@@ -125,8 +125,12 @@
     <script>
         var pm = new PlayManager()
         var start = document.getElementById("game__start")
+        var betting = document.getElementById("game__betting")
         start.addEventListener("click",e=>{
             pm.start()
+        })
+        betting.addEventListener("click",e=>{
+            pm.betting()
         })
     </script>
 </body>

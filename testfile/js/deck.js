@@ -1,30 +1,38 @@
-class Card{
-    constructor(type,prop){
-        this.type = type;
-        this.rank = type.substring(0, 1)
-        this.suit = type.substring(1)
+class Card {
+    constructor(type, prop) {
+        this.type = type
+        this.rank = type.substr(0,1)
+        this.suit = type.substring(1, 2)
 
-        this.prop = prop
+        this.setProp(prop)
     }
-    getType(){
+    setProp(prop) {
+        this.prop = prop
+        if(prop)
+            this.prop.controller = this
+    }
+    getType() {
         return this.type
     }
-    getRank(){
+    getRank() {
         return this.rank
     }
-    getSuit(){
+    getSuit() {
         return this.suit
     }
-    getImage(){
+    getImage() {
         return Deck.internal_GetCardImgUrl(this)
     }
-    show(){
-        this.prop //"url('img/cardback.png')"
+    show() {
+        this.prop.src = this.getImage()
+    }
+    hidden() {
+        this.prop.src = "./img/cardback.png"
     }
 }
 
-class Deck{
-    constructor(){
+class Deck {
+    constructor() {
         this.nextCard = 0
         this.cards = ['As', 'Ah', 'Ad', 'Ac',
             'Ks', 'Kh', 'Kd', 'Kc',
@@ -42,7 +50,7 @@ class Deck{
         ]
         this.metaRank = [2, 3, 4, 5, 6, 7, 8, 9, "T", "H", "Q", "K", "A"]
         this.metaSuiting = {
-            c : "clubs",
+            c: "clubs",
             d: "diamonds",
             h: "hearts",
             s: "spades"
@@ -55,7 +63,7 @@ class Deck{
         return this.metaSuiting[suit]
     }
     static internal_GetCardImgUrl(card) {
-        return `url('./img/${card.getRank()+card.getSuit()}.png')`;
+        return `./img/${card.getRank()+card.getSuit()}.png`;
     }
     // static internal_setBackground(diva, image) {
     //     var komage = diva.style;
@@ -82,12 +90,17 @@ class Deck{
         }
         this.cards = shuffledDeck;
     }
-    deal(numberOfCards) {
-        var dealtCards = [];
-        for (var i = 0; i < numberOfCards && this.nextCard < 52; i++) {
-            dealtCards.push(this.cards[this.nextCard]);
-            this.nextCard++;
+    draw(num) {
+        if (num) {
+            var out = []
+            for (let i = 0; i < num; i++) {
+                var rand = Math.floor(Math.random() * this.cards.length)
+                out.push(new Card(this.cards.splice(rand, 1)[0]))
+            }
+            return out
+        } else {
+            var rand = Math.floor(Math.random() * this.cards.length)
+            return new Card(this.cards.splice(rand, 1)[0])
         }
-        return dealtCards;
     }
 }
