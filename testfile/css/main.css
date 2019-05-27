@@ -41,7 +41,7 @@ button::after {
     bottom: 0;
     right: 0;
 
-    transition: 0.2s ;
+    transition: 0.5s ;
     background-color: rgba(51, 51, 255, 1);
 }
 button:hover{
@@ -51,9 +51,14 @@ button:hover{
 button:hover::after,button:hover::before{
     width: 100%;
 }
+button:active::after,button:active::before{
+    transition: 0.1s ease-out;
+    background-color :rgba(51, 51, 255, 0.5);
+    height: 10px;
+}
 
 body {
-    background-image: url("img/bg_image.gif");
+    background-image: url("../img/bg_image.gif");
     width: 100vw;
     height: 100vh;
     display: flex;

@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="text/javascript" src="js/deck.js"></script>
-    <script type="text/javascript" src="js/player.js"></script>
-    <script type="text/javascript" src="js/pot.js"></script>
-    <script type="text/javascript" src="js/table.js"></script>
+    <script src="./js/deck.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/playManager.js"></script>
+
     <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1" />
+
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/ground.css">
 </head>
@@ -121,6 +122,13 @@
             <button id="game__end">게임 종료</button>
         </div>
     </div>
+    <script>
+        var pm = new PlayManager()
+        var start = document.getElementById("game__start")
+        start.addEventListener("click",e=>{
+            pm.start()
+        })
+    </script>
 </body>
 
 </html>
