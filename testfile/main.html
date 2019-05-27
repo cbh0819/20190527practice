@@ -23,11 +23,6 @@
 
             <div class="user">
                 <div class="user__hand">
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
                 </div>
                 <div class="user__profile">
                     <img class="user__profile__image" src="./img/user1.jpg" alt="not found">
@@ -39,11 +34,6 @@
             </div>
             <div class="user">
                 <div class="user__hand">
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
                 </div>
                 <div class="user__profile">
                     <img class="user__profile__image" src="./img/user2.jpg" alt="not found">
@@ -55,11 +45,6 @@
             </div>
             <div class="user">
                 <div class="user__hand">
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
                 </div>
                 <div class="user__profile">
                     <img class="user__profile__image" src="./img/user3.jpg" alt="not found">
@@ -71,11 +56,6 @@
             </div>
             <div class="user" id="owner">
                 <div class="user__hand">
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
-                    <img class="user__hand__card"></img>
                 </div>
                 <div class="user__profile">
                     <img class="user__profile__image" src="./img/user4.jpg" alt="not found">
@@ -126,11 +106,16 @@
         var pm = new PlayManager()
         var start = document.getElementById("game__start")
         var betting = document.getElementById("game__betting")
+        var die = document.getElementById("game__die")
+        
         start.addEventListener("click",e=>{
             pm.start()
         })
         betting.addEventListener("click",e=>{
-            pm.betting()
+            pm.go()
+        })
+        die.addEventListener("click",e=>{
+            pm.die()
         })
     </script>
 </body>

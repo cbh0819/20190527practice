@@ -42,8 +42,14 @@
     width: 105px;
     height: 150px;
 }
+.user:nth-child(5) .user__hand{
+    width: 675px;
+    height: 225px;
+}
 
 .user__hand{
+    width: 450px;
+    height: 120px;
 
     display: flex;
     justify-content: center;
