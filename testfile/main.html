@@ -4,260 +4,127 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script type="text/javascript" src="js/deck.js"></script>
-    <script type="text/javascript" src="js/player.js"></script>
-    <script type="text/javascript" src="js/pot.js"></script>
-    <script type="text/javascript" src="js/table.js"></script>
-    <script type="text/javascript">
-        window.onload=function(){
+    <script src="./js/deck.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/playManager.js"></script>
 
-        }
-
-    </script>
     <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1" />
-    <style media="screen">
-        body {
-            background-image: url("img/bg_image.gif");
-            margin: 0;
-            padding: 0;
-        }
 
-        .main {
-            width: 1500px;
-        }
-
-        .main-game {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #14313D;
-            border: 2px solid gray;
-            width: 1100px;
-            height: 900px;
-            position: relative;
-            padding: 5px;
-            float: left;
-        }
-
-        .sideMenu {
-            color: white;
-            border: 2px solid black;
-            width: 300px;
-            height: 900px;
-            position: relative;
-            padding: 10px;
-            float: right;
-        }
-
-        .mainUser {
-            display: inline-block;
-            width: 650px !important;
-            height: 250px;
-            position: absolute;
-            bottom: 10%;
-        }
-
-        .user {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-
-            width: 400px;
-            height: 200px;
-
-            background-color: #121230;
-        }
-
-        .userImage img {
-            height: 100%;
-        }
-
-        .user1 {
-            position: absolute;
-            left: 0;
-        }
-
-        .user2 {
-            position: absolute;
-            right: 0;
-        }
-
-        .user3 {
-            position: absolute;
-            top: 10%;
-        }
-
-        .midBet {
-            width: 170px;
-            height: 80px;
-            background-color: gray;
-            padding: 10px;
-            position: absolute;
-        }
-
-        .card-img {}
-
-        .userInfomation {
-            position: absolute;
-            display: flex;
-            bottom: 0;
-        }
-
-        .userImage {
-            height: 70px;
-        }
-
-        .userMoney {
-            width: 300px;
-            height: 70px;
-            background-color: #9ECCF8;
-        }
-
-        .wlcount {
-            background-color: #B0B4DC;
-            width: 250px;
-            height: 70px;
-        }
-
-        .betDieButton {
-            width: auto;
-            height: 80px;
-            padding: 5px;
-            border: 1px solid black;
-        }
-
-        .gameResult {
-            color: black;
-            padding: 5px;
-            margin: 5px;
-            border: 1px solid black;
-        }
-
-        .mainUser>.userMoney {
-            left: 100px;
-            width: 250px;
-            position: absolute;
-        }
-
-        button {
-            background: gray;
-            color: #fff;
-            border: none;
-            position: relative;
-            height: 60px;
-            font-size: 1.6em;
-            padding: 0 2em;
-            cursor: pointer;
-            transition: 800ms ease all;
-            outline: none;
-            text-align: center;
-        }
-
-        button:hover {
-            background: white;
-            color: gray;
-        }
-    </style>
-
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/ground.css">
 </head>
-
+<!-- 
+    * 풀리퀘스트
+    #TODO
+    나머지 3 플레이어의 플레이를 추가해야함
+    손패 점수
+    결과 확인
+    *
+ -->
 <body>
-    <div class="main">
-
-        <!-- 게임 영역 -->
-        <div class="main-game">
-            <div class="user1 user">
-                <div class="card-img"></div>
-                <div class="userInfomation">
-                    <div class="userImage"><img src="./img/user1.jpg"> </div>
-                    <div class="userMoney">
-                        <ul>
-                            <li> user1 : </li>
-                            <li> money : </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="user2 user">
-                <div class="userInfomation">
-                    <div class="userImage"><img src="./img/user2.jpg"> </div>
-                    <div class="userMoney">
-                        <ul>
-                            <li> user2 : </li>
-                            <li> money : </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="user3 user">
-                <div class="userInfomation">
-                    <div class="userImage"><img src="./img/user3.jpg"> </div>
-                    <div class="userMoney">
-                        <ul>
-                            <li> user3 : </li>
-                            <li> money : </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="mainUser user">
-                <div class="userInfomation">
-                    <div class="userImage">
-                        <img src="./img/user4.jpg">
-                    </div>
-                    <div class="userMoney">
-                        <ul>
-                            <li> me : </li>
-                            <li> money : </li>
-                        </ul>
-                    </div>
-                    <div class="wlcount">
-                        <ul>
-                            <li>이긴 횟수 :</li>
-                            <li>진 횟수 : </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-            <div class="midBet">
-                <!-- 총 배팅금액 함수 들어가야됨. -->
+    <div id="app">
+        <div id="ground">
+            <div id="mid">
                 총 배팅 금액
             </div>
 
-        </div>
-        <!-- 우측 메뉴 -->
-        <div class="sideMenu">
-            <div style="text-align: center">
-                <br>
-                <button id="start">게임시작</button>
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user1.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">XX</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="betDieButton">
-                <button style="float: left; width: 140px; height: auto">배팅</button>
-                <button style="float: right; width: 140px; height: auto;">다이</button>
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user2.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">XX</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="gameResult" style="text-align: center; margin: 3px;">
-                <h1>이번 게임결과</h1>
-                <h1></h1>
-                <h2>user1 : </h2>
-                <p>상태</p>
-                <h2>user2 : </h2>
-                <p>상태</p>
-                <h2>user3 : </h2>
-                <p>상태</p>
-                <h2>나 : </h2>
-                <p>상태</p>
-                <button>확인</button>
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user3.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">XX</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div style="text-align: center">
-                <button>게임종료</button>
+            <div class="user" id="owner">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user4.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">XX</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                    <div class="user__profile__infomation" style="margin-left: 150px;">
+                        이긴 횟수 : <span class="win">XX</span><br>
+                        진 횟수 : <span class="lose">XX</span>
+                    </div>
+                </div>
             </div>
-        </div>
 
+        </div>
+        <div id="menu">
+            <button id="game__start">게임 시작</button>
+            <div class="menu__bundle">
+                <button class="small__button" id="game__betting">배팅</button>
+                <button class="small__button" id="game__die">다이</button>
+            </div>
+            <div class="menu__bundle" style="flex-direction: column;">
+                <h2>이번 게임 결과</h2>
+                <ul class="menu__result">
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                </ul>
+                <button id="game__ok">확인</button>
+            </div>
+            <button id="game__end">게임 종료</button>
+        </div>
     </div>
+    <script>
+        var pm = new PlayManager()
+        var start = document.getElementById("game__start")
+        var betting = document.getElementById("game__betting")
+        var die = document.getElementById("game__die")
+        
+        start.addEventListener("click",e=>{
+            pm.start()
+        })
+        betting.addEventListener("click",e=>{
+            pm.go()
+        })
+        die.addEventListener("click",e=>{
+            pm.die()
+        })
+    </script>
 </body>
 
 </html>
