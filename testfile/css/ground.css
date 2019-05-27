@@ -1,0 +1,24 @@
+#ground {
+    position: relative;
+
+    width: 80%;
+    height: 100%;
+    
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#mid{
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.5em;
+    background-color: yellow;
+    border: 5px solid rgba(56, 93, 138, 1);
+    padding: 30px;
+}
