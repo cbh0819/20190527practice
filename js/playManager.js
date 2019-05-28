@@ -3,7 +3,7 @@ class PlayManager {
         this.bet = 0
 
         this.mid = document.getElementById("mid")
-
+        this.restartAble = false;
 
         var users = document.getElementsByClassName("user")
         this.players = [...users].map(x => new Player(x))
@@ -74,7 +74,7 @@ class PlayManager {
         } else {
             if (Math.random() < 0.1) { // 10%
                 this.players[this.currentTurn].die()
-            } else {}
+            } else { }
             var time = setTimeout(() => {
                 this.betting(20)
                 this.currentTurn++
@@ -112,13 +112,27 @@ class PlayManager {
     }
     result() {
         if (this.isStart) {
-
             this.isStart = false
-            var live = this.players.filter(x => !x.isDie).length
+            this.restartAble = true
+            var live = this.players.filter(x => !x.isDie)
+
+            var win = []
+            var max = 0
+            live.forEach((x, idx) => {
+                console.log(x.getHandPower())
+                if (x.getHandPower() > max) {
+                    win = [x]
+                    max = x.getHandPower()
+                }
+                if (x.getHandPower == max) {
+                    win.push(x)
+                }
+            })
             this.players.forEach(x => {
-                console.log(x.getHandPower()) // #TODO 승리방식 제작해야함
                 x.openHand()
-                if (!x.isDie) x.addMoney(Math.floor(this.bet / live))
+            })
+            win.forEach(x => {
+                x.addMoney(Math.floor(this.bet / win.length))
                 x.updateBeforeMoney()
             })
             this.bet = 0
@@ -129,7 +143,9 @@ class PlayManager {
         this.mid.innerHTML = this.bet
     }
     reset() {
-        this.init()
-        this.players.forEach(x => x.init())
+        if (this.restartAble) {
+            this.init()
+            this.players.forEach(x => x.init())
+        }
     }
 }
