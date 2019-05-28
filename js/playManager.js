@@ -1,15 +1,9 @@
 class PlayManager {
     constructor() {
         this.bet = 0
-        this.init()
-    }
-    init() {
-        this.isStart = false
-        this.isRequireEnd = false
-        this.round = 0
-        this.currentTurn = 3
 
-        this.deck = new Deck()
+        this.mid = document.getElementById("mid")
+
 
         var users = document.getElementsByClassName("user")
         this.players = [...users].map(x => new Player(x))
@@ -17,7 +11,15 @@ class PlayManager {
         this.owner.allShow = true
         this.owner.highlight()
 
-        this.mid = document.getElementById("mid")
+        this.init()
+    }
+    init() {
+        this.isStart = false
+        this.round = 0
+        this.currentTurn = 3
+
+        this.deck = new Deck()
+
     }
     start() {
         if (!this.isStart) {
@@ -26,7 +28,7 @@ class PlayManager {
             this.players.forEach(x => {
                 x.addCards(this.deck.draw(3))
             })
-            this.mid.innerText = this.bet
+            this.changeBet()
         }
     }
     betting(num) {
@@ -39,7 +41,7 @@ class PlayManager {
                 } else
                     x.die()
             })
-            this.mid.innerText = this.bet
+            this.changeBet()
         }
     }
     nextTurn(isBettingClick, isDieClick) {
@@ -105,14 +107,26 @@ class PlayManager {
     }
     gameEnd() {
         if (this.gameEndCallBack) this.gameEndCallBack()
-        this.players.forEach(x => x.highlight("green"))
-        this.isStart = false
-        this.isRequireEnd = true
+        this.players.forEach(x => !x.isDie ? x.highlight("green") : x.highlightOff())
+        this.result()
     }
     result() {
-        if (this.isRequireEnd) {
-            this.isRequireEnd = false
+        if (this.isStart) {
+
+            this.isStart = false
+            var live = this.players.filter(x => !x.isDie).length
+            this.players.forEach(x => {
+                console.log(x.getHandPower()) // #TODO 승리방식 제작해야함
+                x.openHand()
+                if (!x.isDie) x.addMoney(Math.floor(this.bet / live))
+                x.updateBeforeMoney()
+            })
+            this.bet = 0
+            this.changeBet()
         }
+    }
+    changeBet() {
+        this.mid.innerHTML = this.bet
     }
     reset() {
         this.init()

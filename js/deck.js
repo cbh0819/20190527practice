@@ -1,18 +1,32 @@
 class Card {
     constructor(type, prop) {
         this.type = type
-        this.rank = type.substr(0,1)
+        this.rank = type.substr(0, 1)
         this.suit = type.substring(1, 2)
+
+        this.metaNumber = {
+            T: 10,
+            J: 11,
+            Q: 12,
+            K: 13,
+            A: 14
+        }
 
         this.setProp(prop)
     }
     setProp(prop) {
         this.prop = prop
-        if(prop)
+        if (prop)
             this.prop.controller = this
     }
     getType() {
         return this.type
+    }
+    getNumber() {
+        if (!isNaN(parseInt(this.rank)))
+            return parseInt(this.rank)
+        else
+            return this.metaNumber[this.rank]
     }
     getRank() {
         return this.rank
@@ -65,21 +79,6 @@ class Deck {
     static internal_GetCardImgUrl(card) {
         return `./img/${card.getRank()+card.getSuit()}.png`;
     }
-    // static internal_setBackground(diva, image) {
-    //     var komage = diva.style;
-    //     komage['background-image'] = image;
-    // }
-    // static internal_setCard(diva, card) {
-    //     var image;
-    //     if (typeof card == 'undefined' || card == "") {
-    //         image = "url('img/outline.gif')";
-    //     } else if (card == "blinded") {
-    //         image = "url('img/cardback.png')";
-    //     } else {
-    //         image = internal_GetCardImgUrl(card);
-    //     }
-    //     internal_setBackground(diva, image);
-    // }
     shuffle() {
         this.nextCard = 0;
         var shuffledDeck = [];
