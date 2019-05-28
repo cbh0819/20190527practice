@@ -114,15 +114,22 @@
         var start = document.getElementById("game__start")
         var betting = document.getElementById("game__betting")
         var die = document.getElementById("game__die")
+        var ok = document.getElementById("game__ok")
         
         start.addEventListener("click",e=>{
             pm.start()
         })
         betting.addEventListener("click",e=>{
-            pm.go()
+            pm.ownerBetting()
         })
         die.addEventListener("click",e=>{
-            pm.die()
+            pm.ownerDie()
+        })
+        ok.addEventListener("click",e=>{
+            pm.result()
+        })
+        pm.gameEndEvent(()=>{
+            console.log("GAME END")
         })
     </script>
 </body>
