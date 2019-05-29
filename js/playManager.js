@@ -65,7 +65,7 @@ class PlayManager {
         })
         if (this.currentTurn == 3) {
             if (this.round >= 1 && !isBettingClick && this.players[this.currentTurn].handCards.length < 5) this.deal()
-            this.round++
+            if(!isBettingClick || this.round == 0) this.round++
             if (!this.players[this.currentTurn].isDie) {
                 if (isBettingClick) {
                     this.currentTurn = 0
@@ -157,19 +157,21 @@ class PlayManager {
                 x.highlight("gold")
                 x.updateBeforeMoney()
             })
-            this.bet = 0
-            this.changeBet()
         }
     }
     changeBet() { // 판돈 HTML 갱신 메서드
         this.mid.innerHTML = this.bet
     }
     resetHARD(){ // 판 강제로 초기화 메서드
+        this.bet = 0
+        this.changeBet()
         this.restartAble = false
         this.init()
     }
     reset() { // 게임이 끝났을 시 판 초기화 메서드
         if (this.restartAble) {
+            this.bet = 0
+            this.changeBet()
             this.restartAble = false
             this.init()
         }
