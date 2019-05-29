@@ -19,6 +19,12 @@ class PlayManager {
         this.isStart = false
         this.round = 0
         this.currentTurn = 3
+            ;[...this.resultPanel.children].forEach((x, idx) => {
+                x.children[0].style.opacity = 1
+                x.children[0].innerHTML = `Player ${idx + 1} : -`
+                x.children[1].style.opacity = 1
+                x.children[1].innerHTML = "(-)"
+            })
 
         this.deck = new Deck()
 
@@ -132,10 +138,14 @@ class PlayManager {
             })
             this.players.forEach(x => {
                 x.openHand()
-                ;[...this.resultPanel.children].forEach((x,idx)=>{
-                    x.children[0].innerHTML = `Player ${idx + 1} : ${this.players[idx].getHandPower()}`
-                    x.children[1].innerHTML = "("+this.players[idx].getHandString()+")"
-                })
+                    ;[...this.resultPanel.children].forEach((x, idx) => {
+                        if(this.players[idx].isDie){
+                            x.children[0].style.opacity = 0.5
+                            x.children[1].style.opacity = 0.5
+                        }
+                        x.children[0].innerHTML = `Player ${idx + 1} : ${this.players[idx].getHandPower()}`
+                        x.children[1].innerHTML = "(" + this.players[idx].getHandString() + ")"
+                    })
             })
             win.forEach(x => {
                 x.addMoney(Math.floor(this.bet / win.length))
