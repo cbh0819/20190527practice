@@ -15,12 +15,13 @@ class PlayManager {
         this.init()
     }
     init() { // 초기화를 위한 메서드
+        this.isOwnerDie = false
         this.isStart = false
         this.round = 0
         this.currentTurn = 3
             ;[...this.resultPanel.children].forEach((x, idx) => {
                 x.style.color = "black"
-                if(idx == 3) x.style.color = "green"
+                if (idx == 3) x.style.color = "green"
                 x.children[0].style.opacity = 1
                 x.children[0].innerHTML = `Player ${idx + 1} : -`
                 x.children[1].style.opacity = 1
@@ -65,9 +66,10 @@ class PlayManager {
         })
         if (this.currentTurn == 3) {
             if (this.round >= 1 && !isBettingClick && this.players[this.currentTurn].handCards.length < 5) this.deal()
-            if(!isBettingClick || this.round == 0) this.round++
+            if (!isBettingClick || this.round == 0) this.round++
             if (!this.players[this.currentTurn].isDie) {
                 if (isBettingClick) {
+                    console.log("HELLO")
                     this.currentTurn = 0
                     this.betting(20)
                     this.nextTurn()
@@ -75,7 +77,8 @@ class PlayManager {
                 if (isDieClick) {
                     this.players[this.currentTurn].die()
                     this.currentTurn = 0
-                    this.nextTurn()
+                    this.isOwnerDie = true
+                    this.gameEnd()
                 }
             } else {
                 this.currentTurn = 0
@@ -120,7 +123,8 @@ class PlayManager {
     }
     gameEnd() { // 게임 종료 메서드
         if (this.gameEndCallBack) this.gameEndCallBack()
-        this.players.forEach(x => !x.isDie ? x.highlight("green") : x.highlightOff())
+        if(!this.isOwnerDie)
+            this.players.forEach(x => !x.isDie ? x.highlight("green") : x.highlightOff())
         this.result()
     }
     result() { // 결과 값을 HTML에 출력해주는 메서드
@@ -128,18 +132,32 @@ class PlayManager {
             this.isStart = false
             this.restartAble = true
             var live = this.players.filter(x => !x.isDie)
-
-            var win = []
-            var max = 0
-            live.forEach((x, idx) => {
-                if (x.getHandPower() > max) {
-                    win = [x]
-                    max = x.getHandPower()
-                }
-                if (x.getHandPower == max) {
-                    win.push(x)
-                }
-            })
+            if (this.isOwnerDie) {
+                live.forEach((x, idx) => {
+                    ;[...this.resultPanel.children][x.id].style.color = "gold"
+                    x.addMoney(Math.floor(this.bet / live.length))
+                    x.highlight("gold")
+                })
+            }
+            else {
+                var win = []
+                var max = 0
+                live.forEach((x, idx) => {
+                    if (x.getHandPower() > max) {
+                        win = [x]
+                        max = x.getHandPower()
+                    }
+                    if (x.getHandPower == max) {
+                        win.push(x)
+                    }
+                })
+                
+                win.forEach((x, idx) => {
+                    ;[...this.resultPanel.children][x.id].style.color = "gold"
+                    x.addMoney(Math.floor(this.bet / win.length))
+                    x.highlight("gold")
+                })
+            }
             this.players.forEach(x => {
                 x.openHand()
                     ;[...this.resultPanel.children].forEach((x, idx) => {
@@ -151,18 +169,12 @@ class PlayManager {
                         x.children[1].innerHTML = "(" + this.players[idx].getHandString() + ")"
                     })
             })
-            win.forEach((x, idx) => {
-                ;[...this.resultPanel.children][x.id].style.color = "gold"
-                x.addMoney(Math.floor(this.bet / win.length))
-                x.highlight("gold")
-                x.updateBeforeMoney()
-            })
         }
     }
     changeBet() { // 판돈 HTML 갱신 메서드
         this.mid.innerHTML = this.bet
     }
-    resetHARD(){ // 판 강제로 초기화 메서드
+    resetHARD() { // 판 강제로 초기화 메서드
         this.bet = 0
         this.changeBet()
         this.restartAble = false

@@ -83,7 +83,6 @@ class Player {
 
         var st = 1
         var max = 1
-        console.log("-----------------------------", this.id)
         var prev = fair[fair.length-1].rank
         for (let i = fair.length - 2; i >= 0; i--) {
             if (fair[i].rank-1 == prev){
