@@ -116,22 +116,22 @@
         var ok = document.getElementById("game__ok")
         var end = document.getElementById("game__end")
 
-        start.addEventListener("click", e => {
+        start.addEventListener("click", e => { // 게임시작 클릭 시
             pm.start()
         })
-        end.addEventListener("click", e => {
+        end.addEventListener("click", e => { // 게임종료 클릭 시
             pm.resetHARD()
         })
-        betting.addEventListener("click", e => {
+        betting.addEventListener("click", e => { // 배팅 클릭 시
             pm.ownerBetting()
         })
-        die.addEventListener("click", e => {
+        die.addEventListener("click", e => { // 다이 클릭 시
             pm.ownerDie()
         })
-        ok.addEventListener("click", e => {
+        ok.addEventListener("click", e => { // 확인 클릭 시
             pm.reset()
         })
-        pm.gameEndEvent(() => {
+        pm.gameEndEvent(() => { // 게임 끝났을 때의 이벤트
             console.log("GAME END")
         })
     </script>

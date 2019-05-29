@@ -1,6 +1,6 @@
 class PlayManager {
     constructor() {
-        this.bet = 0
+        this.bet = 0 // 판돈
 
         this.mid = document.getElementById("mid")
         this.restartAble = false;
@@ -14,7 +14,7 @@ class PlayManager {
 
         this.init()
     }
-    init() {
+    init() { // 초기화를 위한 메서드
         this.isStart = false
         this.round = 0
         this.currentTurn = 3
@@ -34,7 +34,7 @@ class PlayManager {
         this.deck = new Deck()
 
     }
-    start() {
+    start() { // 게임 시작 메서드
         if (!this.isStart && !this.restartAble) {
             this.isStart = true
             this.betting(10)
@@ -45,7 +45,7 @@ class PlayManager {
             this.changeBet()
         }
     }
-    betting(num) {
+    betting(num) { // 전체 배팅 메서드
         if (this.isStart) {
             var value = num || Math.floor(this.bet / 2)
             this.players.forEach(x => {
@@ -58,7 +58,7 @@ class PlayManager {
             this.changeBet()
         }
     }
-    nextTurn(isBettingClick, isDieClick) {
+    nextTurn(isBettingClick, isDieClick) { // 다음 턴 메서드
         this.players.forEach((x, idx) => {
             if (this.currentTurn == idx) x.highlight()
             else x.highlightOff()
@@ -100,30 +100,30 @@ class PlayManager {
             this.gameEnd()
         }
     }
-    deal() {
+    deal() { // 모든 유저에게 카드를 나눠주는 메서드
         if (this.isStart) {
             this.players.forEach(x => {
                 x.addCard(this.deck.draw())
             })
         }
     }
-    ownerBetting() {
+    ownerBetting() { // 플레이어가 배팅을 눌렀을 시 메서드
         if (this.currentTurn == 3 && this.isStart)
             this.nextTurn(1, null)
     }
-    ownerDie() {
+    ownerDie() { // 플레이어가 다이를 눌렀을 시 메서드
         if (this.currentTurn == 3 && this.isStart)
             this.nextTurn(null, 1)
     }
-    gameEndEvent(callBack) {
+    gameEndEvent(callBack) { // 게임 종료 이벤트 입력 메서드
         this.gameEndCallBack = callBack
     }
-    gameEnd() {
+    gameEnd() { // 게임 종료 메서드
         if (this.gameEndCallBack) this.gameEndCallBack()
         this.players.forEach(x => !x.isDie ? x.highlight("green") : x.highlightOff())
         this.result()
     }
-    result() {
+    result() { // 결과 값을 HTML에 출력해주는 메서드
         if (this.isStart) {
             this.isStart = false
             this.restartAble = true
@@ -161,14 +161,14 @@ class PlayManager {
             this.changeBet()
         }
     }
-    changeBet() {
+    changeBet() { // 판돈 HTML 갱신 메서드
         this.mid.innerHTML = this.bet
     }
-    resetHARD(){
+    resetHARD(){ // 판 강제로 초기화 메서드
         this.restartAble = false
         this.init()
     }
-    reset() {
+    reset() { // 게임이 끝났을 시 판 초기화 메서드
         if (this.restartAble) {
             this.restartAble = false
             this.init()
