@@ -1,8 +1,9 @@
 class Player {
-    constructor(prop) {
+    constructor(prop,_id) {
         this.money = 1000
         this.beforeMoney = 1000
         this.allShow = false
+        this.id = _id
 
         this.prop = {
             top: prop,

@@ -6,7 +6,7 @@ class PlayManager {
         this.restartAble = false;
 
         var users = document.getElementsByClassName("user")
-        this.players = [...users].map(x => new Player(x))
+        this.players = [...users].map((x,idx) => new Player(x,idx))
         this.owner = this.players[3]
         this.owner.allShow = true
         this.owner.highlight()
@@ -147,7 +147,8 @@ class PlayManager {
                         x.children[1].innerHTML = "(" + this.players[idx].getHandString() + ")"
                     })
             })
-            win.forEach(x => {
+            win.forEach((x,idx) => {
+                ;[...this.resultPanel.children][x.id].style.color = "gold" 
                 x.addMoney(Math.floor(this.bet / win.length))
                 x.updateBeforeMoney()
             })
