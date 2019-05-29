@@ -19,6 +19,7 @@
     결과 확인
     *
  -->
+
 <body>
     <div id="app">
         <div id="ground">
@@ -113,20 +114,24 @@
         var betting = document.getElementById("game__betting")
         var die = document.getElementById("game__die")
         var ok = document.getElementById("game__ok")
-        
-        start.addEventListener("click",e=>{
+        var end = document.getElementById("game__end")
+
+        start.addEventListener("click", e => {
             pm.start()
         })
-        betting.addEventListener("click",e=>{
+        end.addEventListener("click", e => {
+            pm.resetHARD()
+        })
+        betting.addEventListener("click", e => {
             pm.ownerBetting()
         })
-        die.addEventListener("click",e=>{
+        die.addEventListener("click", e => {
             pm.ownerDie()
         })
-        ok.addEventListener("click",e=>{
+        ok.addEventListener("click", e => {
             pm.reset()
         })
-        pm.gameEndEvent(()=>{
+        pm.gameEndEvent(() => {
             console.log("GAME END")
         })
     </script>

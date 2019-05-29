@@ -1,5 +1,5 @@
 class Player {
-    constructor(prop,_id) {
+    constructor(prop, _id) {
         this.money = 1000
         this.beforeMoney = 1000
         this.allShow = false
@@ -85,17 +85,21 @@ class Player {
         fair = fair.filter(x => x)
         fair.sort((a, b) => b.rank - a.rank)
 
-        var st = 0
+        var st = 1
         var max = 1
-        fair.forEach((x, ix) => {
-            var prev = 0
-            fair.forEach((y, iy) => {
-                if (iy > ix && prev - 1 == y.rank) max++
-                prev = y.rank
-            })
-            if (max > st) st = max
-            max = 1
-        })
+        console.log("-----------------------------", this.id)
+        var prev = fair[fair.length-1].rank
+        for (let i = fair.length - 2; i >= 0; i--) {
+            if (fair[i].rank-1 == prev){
+                max++
+                prev = fair[i].rank
+            }
+            else{
+                if(max > st) st = max
+                max = 1
+                continue
+            }
+        }
         var high = fair[fair.length - 1].rank == 1 ? 14 : fair[0].rank
         if (st >= 5) {
             return 700 + high
@@ -120,8 +124,8 @@ class Player {
         }
     }
     getHandString() {
-        var high = this.getHandPower() - Math.floor(this.getHandPower()/100) * 100
-        switch (Math.floor(this.getHandPower()/100)) {
+        var high = this.getHandPower() - Math.floor(this.getHandPower() / 100) * 100
+        switch (Math.floor(this.getHandPower() / 100)) {
             case 7: return `5연속 스트레이트 [${high}]`
             case 6:
                 return `트리플 [${high}]`

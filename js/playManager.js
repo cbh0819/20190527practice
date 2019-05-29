@@ -6,10 +6,9 @@ class PlayManager {
         this.restartAble = false;
 
         var users = document.getElementsByClassName("user")
-        this.players = [...users].map((x,idx) => new Player(x,idx))
+        this.players = [...users].map((x, idx) => new Player(x, idx))
         this.owner = this.players[3]
         this.owner.allShow = true
-        this.owner.highlight()
 
         this.resultPanel = document.getElementsByClassName("menu__result")[0]
 
@@ -20,11 +19,17 @@ class PlayManager {
         this.round = 0
         this.currentTurn = 3
             ;[...this.resultPanel.children].forEach((x, idx) => {
+                x.style.color = "black"
+                if(idx == 3) x.style.color = "green"
                 x.children[0].style.opacity = 1
                 x.children[0].innerHTML = `Player ${idx + 1} : -`
                 x.children[1].style.opacity = 1
                 x.children[1].innerHTML = "(-)"
             })
+        this.players.forEach(x => {
+            x.init()
+            x.highlightOff()
+        })
 
         this.deck = new Deck()
 
@@ -36,6 +41,7 @@ class PlayManager {
             this.players.forEach(x => {
                 x.addCards(this.deck.draw(3))
             })
+            this.owner.highlight()
             this.changeBet()
         }
     }
@@ -58,7 +64,6 @@ class PlayManager {
             else x.highlightOff()
         })
         if (this.currentTurn == 3) {
-
             if (this.round >= 1 && !isBettingClick && this.players[this.currentTurn].handCards.length < 5) this.deal()
             this.round++
             if (!this.players[this.currentTurn].isDie) {
@@ -89,7 +94,7 @@ class PlayManager {
                 this.nextTurn()
             }, 1000)
         }
-        if (this.round > 3 && this.isStart) {
+        if ((this.round > 3 || this.players.filter(x => x.isDie).length >= 3) && this.isStart) {
             if (time)
                 clearTimeout(time)
             this.gameEnd()
@@ -127,7 +132,6 @@ class PlayManager {
             var win = []
             var max = 0
             live.forEach((x, idx) => {
-                console.log(x.getHandPower())
                 if (x.getHandPower() > max) {
                     win = [x]
                     max = x.getHandPower()
@@ -139,7 +143,7 @@ class PlayManager {
             this.players.forEach(x => {
                 x.openHand()
                     ;[...this.resultPanel.children].forEach((x, idx) => {
-                        if(this.players[idx].isDie){
+                        if (this.players[idx].isDie) {
                             x.children[0].style.opacity = 0.5
                             x.children[1].style.opacity = 0.5
                         }
@@ -147,9 +151,10 @@ class PlayManager {
                         x.children[1].innerHTML = "(" + this.players[idx].getHandString() + ")"
                     })
             })
-            win.forEach((x,idx) => {
-                ;[...this.resultPanel.children][x.id].style.color = "gold" 
+            win.forEach((x, idx) => {
+                ;[...this.resultPanel.children][x.id].style.color = "gold"
                 x.addMoney(Math.floor(this.bet / win.length))
+                x.highlight("gold")
                 x.updateBeforeMoney()
             })
             this.bet = 0
@@ -159,11 +164,14 @@ class PlayManager {
     changeBet() {
         this.mid.innerHTML = this.bet
     }
+    resetHARD(){
+        this.restartAble = false
+        this.init()
+    }
     reset() {
         if (this.restartAble) {
             this.restartAble = false
             this.init()
-            this.players.forEach(x => x.init())
         }
     }
 }
