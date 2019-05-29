@@ -11,6 +11,8 @@ class PlayManager {
         this.owner.allShow = true
         this.owner.highlight()
 
+        this.resultPanel = document.getElementsByClassName("menu__result")[0]
+
         this.init()
     }
     init() {
@@ -22,7 +24,7 @@ class PlayManager {
 
     }
     start() {
-        if (!this.isStart) {
+        if (!this.isStart && !this.restartAble) {
             this.isStart = true
             this.betting(10)
             this.players.forEach(x => {
@@ -130,6 +132,10 @@ class PlayManager {
             })
             this.players.forEach(x => {
                 x.openHand()
+                ;[...this.resultPanel.children].forEach((x,idx)=>{
+                    x.children[0].innerHTML = `Player ${idx + 1} : ${this.players[idx].getHandPower()}`
+                    x.children[1].innerHTML = "("+this.players[idx].getHandString()+")"
+                })
             })
             win.forEach(x => {
                 x.addMoney(Math.floor(this.bet / win.length))
@@ -144,6 +150,7 @@ class PlayManager {
     }
     reset() {
         if (this.restartAble) {
+            this.restartAble = false
             this.init()
             this.players.forEach(x => x.init())
         }

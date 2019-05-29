@@ -30,7 +30,7 @@ class Player {
         this.money += money
         this.moneyRender()
     }
-    updateBeforeMoney(){
+    updateBeforeMoney() {
         this.beforeMoney = this.money
     }
     moneyRender() {
@@ -57,8 +57,8 @@ class Player {
             this.prop.hand.appendChild(img)
         })
     }
-    openHand(){
-        this.handCards.forEach(x=>x.show())
+    openHand() {
+        this.handCards.forEach(x => x.show())
     }
     die() {
         this.isDie = true
@@ -81,40 +81,59 @@ class Player {
                 }
             }
         })
-        fair = fair.filter(x=>x)
-        fair.sort((a,b)=>b.rank-a.rank)
+        fair = fair.filter(x => x)
+        fair.sort((a, b) => b.rank - a.rank)
 
         var st = 0
         var max = 1
-        fair.forEach((x,ix)=>{
+        fair.forEach((x, ix) => {
             var prev = 0
-            fair.forEach((y,iy)=>{
-                if(iy >ix && prev-1 == y.rank) max++
+            fair.forEach((y, iy) => {
+                if (iy > ix && prev - 1 == y.rank) max++
                 prev = y.rank
             })
-            if(max > st) st = max
-            max = 0;
+            if (max > st) st = max
+            max = 1
         })
-        if(st >= 5){
-            return 700 + fair[0].rank
+        var high = fair[fair.length - 1].rank == 1 ? 14 : fair[0].rank
+        if (st >= 5) {
+            return 700 + high
         }
-        else if(fair.filter(x=>x.count >= 3).length){
-            return 600 + fair[0].rank
+        else if (fair.filter(x => x.count >= 3).length) {
+            return 600 + high
         }
-        else if(st == 4){
-            return 500 + fair[0].rank
+        else if (st == 4) {
+            return 500 + high
         }
-        else if (fair.filter(x => x.count == 2).length == 2){
-            return 400 + fair[0].rank
+        else if (fair.filter(x => x.count == 2).length == 2) {
+            return 400 + high
         }
-        else if (st == 3){
-            return 300 + fair[0].rank
+        else if (st == 3) {
+            return 300 + high
         }
-        else if (fair.filter(x=> x.count == 2).length){
-            return 200 + fair[0].rank
+        else if (fair.filter(x => x.count == 2).length) {
+            return 200 + high
         }
-        else if (fair[0].rank){
-            return 100 + fair[0].rank
+        else if (high) {
+            return 100 + high
+        }
+    }
+    getHandString() {
+        var high = this.getHandPower() - Math.floor(this.getHandPower()/100) * 100
+        switch (Math.floor(this.getHandPower()/100)) {
+            case 7: return `5연속 스트레이트 [${high}]`
+            case 6:
+                return `트리플 [${high}]`
+            case 5:
+                return `4연속 스트레이트 [${high}]`
+            case 4:
+                return `투페어 [${high}]`
+            case 3:
+                return `3연속 스트레이트 [${high}]`
+            case 2:
+                return `원페어 [${high}]`
+            case 1:
+                return `하이랜더 [${high}]`
         }
     }
 }

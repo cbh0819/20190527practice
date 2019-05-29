@@ -9,7 +9,7 @@ class Card {
             J: 11,
             Q: 12,
             K: 13,
-            A: 14
+            A: 1
         }
 
         this.setProp(prop)
