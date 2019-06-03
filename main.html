@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/deck.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/playManager.js"></script>
+
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1" />
+
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/ground.css">
+</head>
+<!-- 
+    #TODO
+    손패 점수
+    결과 확인
+    *
+ -->
+
+<body>
+    <div id="app">
+        <div id="ground">
+            <div id="mid">
+                총 배팅 금액
+            </div>
+
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user1.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">Player 1</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
+            </div>
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user2.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">Player 2</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
+            </div>
+            <div class="user">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user3.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">Player 3</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                </div>
+            </div>
+            <div class="user" id="owner">
+                <div class="user__hand">
+                </div>
+                <div class="user__profile">
+                    <img class="user__profile__image" src="./img/user4.jpg" alt="not found">
+                    <div class="user__profile__infomation">
+                        이름 : <span class="name">Player 4</span><br>
+                        머니 : <span class="money">XX</span>
+                    </div>
+                    <div class="user__profile__infomation" style="margin-left: 150px;">
+                        이긴 횟수 : <span class="win">XX</span><br>
+                        진 횟수 : <span class="lose">XX</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="menu">
+            <button id="game__start">게임 시작</button>
+            <div class="menu__bundle">
+                <button class="small__button" id="game__betting">배팅</button>
+                <button class="small__button" id="game__die">다이</button>
+            </div>
+            <div class="menu__bundle" style="flex-direction: column;">
+                <h2>이번 게임 결과</h2>
+                <ul class="menu__result">
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li>
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                    <li style="color:green;">
+                        <h3>이름 : +500</h3>
+                        <p>(2쓰리카드)</p>
+                    </li>
+                </ul>
+                <button id="game__ok">확인</button>
+            </div>
+            <button id="game__end">게임 종료</button>
+        </div>
+    </div>
+    <script>
+        var pm = new PlayManager()
+        var start = document.getElementById("game__start")
+        var betting = document.getElementById("game__betting")
+        var die = document.getElementById("game__die")
+        var ok = document.getElementById("game__ok")
+        var end = document.getElementById("game__end")
+
+        start.addEventListener("click", e => { // 게임시작 클릭 시
+            pm.start()
+        })
+        end.addEventListener("click", e => { // 게임종료 클릭 시
+            pm.resetHARD()
+        })
+        betting.addEventListener("click", e => { // 배팅 클릭 시
+            pm.ownerBetting()
+        })
+        die.addEventListener("click", e => { // 다이 클릭 시
+            pm.ownerDie()
+        })
+        ok.addEventListener("click", e => { // 확인 클릭 시
+            pm.reset()
+        })
+        pm.gameEndEvent(() => { // 게임 끝났을 때의 이벤트
+            console.log("GAME END")
+        })
+    </script>
+</body>
+
+</html>
